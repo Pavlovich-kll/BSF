@@ -1,0 +1,24 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    url: jdbc:postgresql://db:5432/compose-postgres
+    driver-class-name: org.postgresql.Driver
+    username: docker-compose
+    password: docker-compose
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        use_sql_comments: tru
+        format_sql: true
+
+#=======================================================
+# Swagger
+#=======================================================
+
+springfox:
+  documentation:
+    swagger-ui:
+      base-url: /api
+      enabled: true

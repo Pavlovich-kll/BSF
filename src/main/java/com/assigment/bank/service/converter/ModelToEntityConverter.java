@@ -1,39 +1,31 @@
 package com.assigment.bank.service.converter;
 
+import com.assigment.bank.dto.AccountDto;
+import com.assigment.bank.dto.TransactionDto;
+import com.assigment.bank.dto.UserDto;
 import com.assigment.bank.entity.*;
 import com.assigment.bank.model.*;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Component
 public class ModelToEntityConverter {
 
-    public UserEntity convertToUserEntity(User user) {
+    public UserEntity convertToUserEntity(UserDto user) {
         return UserEntity.builder()
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
-                .userNumber(user.getUserNumber())
                 .status(user.getStatus())
-                .contactDetails(convertToContactEntity(user.getContactInformation()))
-                .userAddress(convertToAddressEntity(user.getUserAddress()))
-                .savingsAccount(convertToAccountEntity(user.getAccount()))
-                .bank(convertToBankInfoEntity(user.getBank()))
                 .build();
     }
 
-    public AccountEntity convertToAccountEntity(Account accInfo) {
-        List<TransactionEntity> list = new ArrayList<>();
-        accInfo.getTransactionList().forEach(t -> list.add(convertToTransactionEntity(t)));
-
+    public AccountEntity convertToAccountEntity(AccountDto accInfo) {
         return AccountEntity.builder()
                 .accountType(accInfo.getAccountType())
                 .accountBalance(accInfo.getAccountBalance())
-                .userEntity(convertToUserEntity(accInfo.getUser()))
+//                .user(convertToUserEntity(accInfo.getUser()))
                 .accountStatus(accInfo.getAccountStatus())
-                .transactionsList(list)
-                .createDateTime(accInfo.getAccountCreated())
+//                .transactionsList(list)
+//                .createDateTime(accInfo.getAccountCreated())
                 .build();
     }
 
@@ -51,28 +43,45 @@ public class ModelToEntityConverter {
         return ContactEntity.builder()
                 .email(contact.getEmail())
                 .phoneNumber(contact.getPhoneNumber())
+                .address(contact.getAddress())
+                .city(contact.getCity())
+                .country(contact.getCountry())
                 .build();
     }
 
     public BankEntity convertToBankInfoEntity(Bank bank) {
-        List<UserEntity> listUsers = new ArrayList<>();
-        bank.getUser().forEach(u -> listUsers.add(convertToUserEntity(u)));
+//        List<UserEntity> listUsers = new ArrayList<>();
+//        bank.getUser().forEach(u -> listUsers.add(convertToUserEntity(u)));
 
         return BankEntity.builder()
                 .branchCode(bank.getBranchCode())
                 .branchName(bank.getBranchName())
                 .routingNumber(bank.getRoutingNumber())
                 .branchAddress(convertToAddressEntity(bank.getBranchAddress()))
-                .userEntity(listUsers)
+//                .userEntity(listUsers)
                 .build();
     }
 
-    public TransactionEntity convertToTransactionEntity(Transaction transactionDetails) {
+    public TransactionEntity convertToTransactionEntity(TransactionDto transaction) {
         return TransactionEntity.builder()
-                .txAmount(transactionDetails.getTxAmount())
-                .txDateTime(transactionDetails.getTxDateTime())
-                .txType(transactionDetails.getTxType())
-                .account(convertToAccountEntity(transactionDetails.getAccount()))
+                .txAmount(transaction.getTxAmount())
+                .txType(transaction.getTxType())
+                .build();
+    }
+
+
+
+
+    public BankEntity convertToBankTESTEntity(Bank bank) {
+//        List<UserEntity> listUsers = new ArrayList<>();
+//        bank.getUser().forEach(u -> listUsers.add(convertToUserEntity(u)));
+
+        return BankEntity.builder()
+                .branchCode(bank.getBranchCode())
+                .branchName(bank.getBranchName())
+                .routingNumber(bank.getRoutingNumber())
+                .branchAddress(convertToAddressEntity(bank.getBranchAddress()))
+//                .userEntity(listUsers)
                 .build();
     }
 }

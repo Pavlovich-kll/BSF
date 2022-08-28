@@ -1,13 +1,13 @@
 package com.assigment.bank.entity;
 
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.UUID;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "User")
+@Table(name = "Users")
 @Data
 @Builder
 @AllArgsConstructor
@@ -16,9 +16,10 @@ import java.util.UUID;
 public class UserEntity extends VersionedPersistence {
 
     @Id
-    @GeneratedValue
-    @Column(name = "user_id")
-    private UUID id;
+    @GeneratedValue(strategy= GenerationType.AUTO, generator="native")
+    @GenericGenerator(name = "native", strategy = "native")
+    @Column(name = "id")
+    private Long id;
 
     @Column(name = "first_name")
     private String firstName;
@@ -26,34 +27,26 @@ public class UserEntity extends VersionedPersistence {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "user_number")
-    private Long userNumber;
-
     @Column(name = "status")
     private String status;
 
-    @JoinColumn(name = "address_id")
     @OneToOne(cascade = CascadeType.ALL)
-    private AddressEntity userAddress;
-
     @JoinColumn(name = "contact_id")
-    @OneToOne(cascade = CascadeType.ALL)
-    private ContactEntity contactDetails;
+    private ContactEntity contactEntity;
 
-    @JoinColumn(name = "account_id")
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "account_id", referencedColumnName = "id")
     private AccountEntity savingsAccount;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "bank_id")
     private BankEntity bank;
 
-    @Column(name = "create_date")
-    @Temporal(TemporalType.TIME)
-    private Date createDateTime;
+    @Column(name = "creation_date")
+    private LocalDateTime createDateTime;
 
     @PrePersist
     protected void onCreate() {
-        this.createDateTime = new Date();
+        this.createDateTime = LocalDateTime.now();
     }
 }

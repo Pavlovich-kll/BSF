@@ -2,19 +2,33 @@ server:
   port: 8080
 spring:
   datasource:
-    url: jdbc:postgresql://db:5432/compose-postgres
+#    url: jdbc:postgresql://db:5432/compose-postgres
+#    driver-class-name: org.postgresql.Driver
+#    username: docker-compose
+#    password: docker-compose
+    url: jdbc:postgresql://localhost:5477/postgres
     driver-class-name: org.postgresql.Driver
-    username: docker-compose
-    password: docker-compose
+    username: postgres
+    password: postgres
   jpa:
     properties:
+      jpa:
       hibernate:
+        hbm2ddl:
+          auto: update
         show_sql: true
-        use_sql_comments: tru
+        use_sql_comments: true
         format_sql: true
+#  sql:
+#    init:
+#      data-locations: init.sql
+#  mvc:
+#    pathmatch:
+#      matching-strategy: ant_path_matcher
 
 #=======================================================
 # Swagger
+# http://localhost:8080/api/swagger-ui/index.html
 #=======================================================
 
 springfox:

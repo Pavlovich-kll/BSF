@@ -1,0 +1,91 @@
+### Create first user
+POST http://localhost:8080/user/create
+Content-Type: application/json
+
+{
+  "bankId": 1,
+  "contactInformation": {
+    "address": "user1 address",
+    "city": "user1 city",
+    "country": "user1 country",
+    "email": "email1",
+    "phoneNumber": "+79213463434"
+  },
+  "firstName": "user1",
+  "lastName": "test1",
+  "status": "status1"
+}
+
+### Create second user
+POST http://localhost:8080/user/create
+Content-Type: application/json
+
+{
+"bankId": 2,
+"contactInformation": {
+"address": "user2 address",
+"city": "user2 city",
+"country": "user2 country",
+"email": "email2",
+"phoneNumber": "+7921346634"
+},
+"firstName": "user2",
+"lastName": "test2",
+"status": "status2"
+}
+
+### get user on account number (id)
+GET http://localhost:8080/user/10
+Content-Type: application/json
+
+
+### get all users
+GET http://localhost:8080/user/all
+Content-Type: application/json
+
+### delete user on id
+DELETE http://localhost:8080/user/delete/1
+Content-Type: application/json
+
+### create account
+POST http://localhost:8080/account/create
+Content-Type: application/json
+
+{
+  "accountBalance": 10000,
+  "accountStatus": "enable",
+  "accountType": "dollars",
+  "userNumber": 10
+}
+
+### do transaction +plus balance on account number from user
+POST http://localhost:8080/transaction/toUp
+Content-Type: application/json
+
+{
+  "accountNumber": 11,
+  "txAmount": 1200,
+  "txType": "toUp"
+}
+
+
+### do transaction -minus balance on account number from user
+POST http://localhost:8080/transaction/withdraw
+Content-Type: application/json
+
+{
+  "accountNumber": 4,
+  "txAmount": 200,
+  "txType": "toUp"
+}
+
+### do transfer transaction from one user to another on account numbers
+POST http://localhost:8080/transaction/transfer
+Content-Type: application/json
+
+{
+  "accountNumber": 10,
+  "toAccountNumber": 3,
+  "txAmount": 1000,
+  "txType": "transfer"
+}

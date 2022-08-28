@@ -14,5 +14,4 @@ public class Bank {
     private Integer branchCode;
     private Address branchAddress;
     private Integer routingNumber;
-    private List<User> user;
 }

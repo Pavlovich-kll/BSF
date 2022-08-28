@@ -3,6 +3,7 @@ package com.assigment.bank.model;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -12,10 +13,10 @@ import java.util.List;
 @NoArgsConstructor
 public class Account {
 
-    private User user;
+    private Long userNumber;
     private String accountStatus;
     private String accountType;
     private BigDecimal accountBalance;
-    private Date accountCreated;
+    private LocalDateTime accountCreated;
     private List<Transaction> transactionList;
 }

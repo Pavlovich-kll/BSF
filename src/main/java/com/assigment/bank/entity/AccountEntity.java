@@ -2,15 +2,15 @@ package com.assigment.bank.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
-@Table(name = "Account")
+@Table(name = "ACCOUNT")
 @Data
 @Builder
 @AllArgsConstructor
@@ -19,13 +19,13 @@ import java.util.UUID;
 public class AccountEntity extends VersionedPersistence{
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    @Column(name="account_id")
-    private UUID id;
+    @GeneratedValue(strategy= GenerationType.AUTO, generator="native")
+    @GenericGenerator(name = "native",strategy = "native")
+    @Column(name = "id")
+    private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private UserEntity userEntity;
+    @OneToOne(mappedBy = "savingsAccount")
+    private UserEntity userNumber;
 
     @Column(name = "account_status")
     private String accountStatus;
@@ -37,12 +37,14 @@ public class AccountEntity extends VersionedPersistence{
     private BigDecimal accountBalance;
 
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "transaction_id")
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<TransactionEntity> transactionsList;
 
     @Column(name = "create_date")
-    @Temporal(TemporalType.TIME)
-    private Date createDateTime;
+    private LocalDateTime createDateTime;
 
+    @PrePersist
+    protected void onCreate() {
+        this.createDateTime = LocalDateTime.now();
+    }
 }

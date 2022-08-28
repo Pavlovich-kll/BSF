@@ -11,13 +11,23 @@ import java.util.List;
 public class EntityToModelConverter {
     public User convertToUserDomain(UserEntity userEntity) {
         return User.builder()
+                .userNumber(userEntity.getId())
                 .firstName(userEntity.getFirstName())
                 .lastName(userEntity.getLastName())
-                .userNumber(userEntity.getUserNumber())
                 .status(userEntity.getStatus())
-                .userAddress(convertToAddressDomain(userEntity.getUserAddress()))
-                .contactInformation(convertToContactInformationDomain(userEntity.getContactDetails()))
-                .account(convertToAccountDomain(userEntity.getSavingsAccount()))
+                .contactInformation(convertToContactInformationDomain(userEntity.getContactEntity()))
+                .account(convertToAccountDomain(userEntity.getSavingsAccount(), userEntity.getId()))
+                .bank(convertToBankDomain(userEntity.getBank()))
+                .build();
+    }
+
+    public User convertToUserNoAccountDomain(UserEntity userEntity) {
+        return User.builder()
+                .userNumber(userEntity.getId())
+                .firstName(userEntity.getFirstName())
+                .lastName(userEntity.getLastName())
+                .status(userEntity.getStatus())
+                .contactInformation(convertToContactInformationDomain(userEntity.getContactEntity()))
                 .bank(convertToBankDomain(userEntity.getBank()))
                 .build();
     }
@@ -37,17 +47,20 @@ public class EntityToModelConverter {
         return ContactInformation.builder()
                 .email(contact.getEmail())
                 .phoneNumber(contact.getPhoneNumber())
+                .address(contact.getAddress())
+                .city(contact.getCity())
+                .country(contact.getCountry())
                 .build();
     }
 
-    public Account convertToAccountDomain(AccountEntity account) {
+    public Account convertToAccountDomain(AccountEntity account, Long userNumber) {
         List<Transaction> transactionList = new ArrayList<>();
-        account.getTransactionsList().forEach(t -> transactionList.add(convertToTransactionDomain(t)));
+        account.getTransactionsList().forEach(t -> transactionList.add(convertToTransactionDomain(t, userNumber)));
 
         return Account.builder()
                 .accountType(account.getAccountType())
                 .accountBalance(account.getAccountBalance())
-                .user(convertToUserDomain(account.getUserEntity()))
+                .userNumber(userNumber)
                 .accountStatus(account.getAccountStatus())
                 .transactionList(transactionList)
                 .build();
@@ -55,24 +68,21 @@ public class EntityToModelConverter {
 
 
     public Bank convertToBankDomain(BankEntity bank) {
-        List<User> userList = new ArrayList<>();
-        bank.getUserEntity().forEach(u -> userList.add(convertToUserDomain(u)));
-
         return Bank.builder()
                 .branchCode(bank.getBranchCode())
                 .branchName(bank.getBranchName())
                 .routingNumber(bank.getRoutingNumber())
                 .branchAddress(convertToAddressDomain(bank.getBranchAddress()))
-                .user(userList)
                 .build();
     }
 
-    public Transaction convertToTransactionDomain(TransactionEntity transaction) {
+    public Transaction convertToTransactionDomain(TransactionEntity transaction, Long userNumber) {
         return Transaction.builder()
+                .transactionNumber(transaction.getId())
                 .txAmount(transaction.getTxAmount())
                 .txDateTime(transaction.getTxDateTime())
                 .txType(transaction.getTxType())
-                .account(convertToAccountDomain(transaction.getAccount()))
+                .userNumber(userNumber)
                 .build();
     }
 }

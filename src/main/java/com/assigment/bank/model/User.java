@@ -1,5 +1,6 @@
 package com.assigment.bank.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
 
@@ -9,12 +10,13 @@ import lombok.*;
 @NoArgsConstructor
 public class User {
 
+    private Long userNumber;
     private String firstName;
     private String lastName;
-    private Long userNumber;
     private String status;
-    private Address userAddress;
     private ContactInformation contactInformation;
     private Bank bank;
+
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private Account account;
 }

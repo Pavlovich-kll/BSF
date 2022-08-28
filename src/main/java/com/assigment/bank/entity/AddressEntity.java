@@ -6,10 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.UUID;
 
 @Entity
-@Table(name = "Address")
+@Table(name = "ADDRESS")
 @Data
 @Builder
 @NoArgsConstructor
@@ -17,14 +16,16 @@ import java.util.UUID;
 public class AddressEntity {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    @Column(name="address_id")
-    private UUID id;
+    @Column(name = "id")
+    private Long id;
 
     private String address;
     private String city;
     private String state;
     private String zip;
     private String country;
+
+    @OneToOne(mappedBy = "branchAddress")
+    private BankEntity bank;
 
 }

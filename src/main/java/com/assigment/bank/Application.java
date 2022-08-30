@@ -1,9 +1,9 @@
 package com.assigment.bank;
 
-import com.assigment.bank.config.PersistenceJPAConfig;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -14,13 +14,14 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @EnableWebMvc
 @EnableSwagger2
+@EnableJpaRepositories
 @SpringBootApplication
 public class Application {
 
 	public static void main(String[] args) {
 		new SpringApplicationBuilder(
-				Application.class,
-				PersistenceJPAConfig.class
+				Application.class
+//				, PersistenceJPAConfig.class
 		)
 				.build(args)
 				.run();

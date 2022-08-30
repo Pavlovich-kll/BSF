@@ -3,6 +3,7 @@ package com.assigment.bank.controller;
 import com.assigment.bank.dto.TransactionDto;
 import com.assigment.bank.service.implServices.PlusTransactionServiceImpl;
 import com.assigment.bank.service.implServices.MinusTransactionServiceImpl;
+import com.assigment.bank.service.implServices.TransferTransactionServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -22,6 +23,8 @@ public class TransactionController {
     private PlusTransactionServiceImpl toUpService;
     @Autowired
     private MinusTransactionServiceImpl withdrawService;
+    @Autowired
+    private TransferTransactionServiceImpl transactionService;
 
     @PostMapping(path = "/toUp")
     @ApiOperation(value = "Top up your account balance")
@@ -56,7 +59,7 @@ public class TransactionController {
             @ApiResponse(code = 500, message = "Internal Server Error")})
 
     public ResponseEntity<String> transferTransaction(@RequestBody TransactionDto transaction) {
-        withdrawService.doTransfer(transaction, transaction.getToAccountNumber());
+        transactionService.doTransfer(transaction, transaction.getToAccountNumber());
         return new ResponseEntity<>(
                 "The transaction from account " + transaction.getAccountNumber() +
                         " to account " + transaction.getToAccountNumber() + " was successful!" ,

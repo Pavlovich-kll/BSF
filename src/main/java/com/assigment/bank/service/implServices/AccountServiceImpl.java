@@ -12,27 +12,22 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class AccountServiceImpl implements AccountService {
 
     private final UserRepository userRepository;
     private final SavingsAccountRepository accountRepository;
     private final ModelToEntityConverter toEntityConverter;
-    private final EntityToModelConverter toModelConverter;
 
     public AccountServiceImpl(UserRepository userRepository, SavingsAccountRepository accountRepository, ModelToEntityConverter toEntityConverter, EntityToModelConverter toModelConverter) {
         this.userRepository = userRepository;
         this.accountRepository = accountRepository;
         this.toEntityConverter = toEntityConverter;
-        this.toModelConverter = toModelConverter;
     }
-
-    //    @Override
-//    public AccountEntity findAccountByAccountNumber(Long accountNumber) {
-//        return null;
-//    }
 
     @Override
     public void createUsersAccount(AccountDto account) {
@@ -48,5 +43,4 @@ public class AccountServiceImpl implements AccountService {
                     "The user with the number: " + account.getUserNumber() + "was not found!");
         }
     }
-
 }

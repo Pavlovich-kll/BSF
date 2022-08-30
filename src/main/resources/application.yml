@@ -19,6 +19,9 @@ spring:
         show_sql: true
         use_sql_comments: true
         format_sql: true
+
+  main:
+    allow-bean-definition-overriding: true
 #  sql:
 #    init:
 #      data-locations: init.sql

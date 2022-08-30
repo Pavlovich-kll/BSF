@@ -1,5 +1,7 @@
+### Befor strat run init.sql script in test resources in order to generate Bank and Address in DB.
+
 ### Create first user
-POST http://localhost:8080/user/create
+PUT http://localhost:8080/user/create
 Content-Type: application/json
 
 {
@@ -17,7 +19,7 @@ Content-Type: application/json
 }
 
 ### Create second user
-POST http://localhost:8080/user/create
+PUT http://localhost:8080/user/create
 Content-Type: application/json
 
 {
@@ -35,7 +37,7 @@ Content-Type: application/json
 }
 
 ### get user on account number (id)
-GET http://localhost:8080/user/10
+GET http://localhost:8080/user/1
 Content-Type: application/json
 
 
@@ -55,7 +57,7 @@ Content-Type: application/json
   "accountBalance": 10000,
   "accountStatus": "enable",
   "accountType": "dollars",
-  "userNumber": 10
+  "userNumber": 2
 }
 
 ### do transaction +plus balance on account number from user
@@ -63,7 +65,7 @@ POST http://localhost:8080/transaction/toUp
 Content-Type: application/json
 
 {
-  "accountNumber": 11,
+  "accountNumber": 1,
   "txAmount": 1200,
   "txType": "toUp"
 }
@@ -74,9 +76,9 @@ POST http://localhost:8080/transaction/withdraw
 Content-Type: application/json
 
 {
-  "accountNumber": 4,
+  "accountNumber": 2,
   "txAmount": 200,
-  "txType": "toUp"
+  "txType": "withdraw"
 }
 
 ### do transfer transaction from one user to another on account numbers
@@ -84,8 +86,8 @@ POST http://localhost:8080/transaction/transfer
 Content-Type: application/json
 
 {
-  "accountNumber": 10,
-  "toAccountNumber": 3,
-  "txAmount": 1000,
+  "accountNumber": 1,
+  "toAccountNumber": 2,
+  "txAmount": 200,
   "txType": "transfer"
 }

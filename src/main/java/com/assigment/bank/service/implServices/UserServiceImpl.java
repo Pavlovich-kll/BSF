@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService {
            UserEntity entity = user.get();
            return createUserEntity(entity);
         } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User №" + userNumber + " not found.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User № " + userNumber + " not found.");
         }
     }
 
@@ -72,7 +72,6 @@ public class UserServiceImpl implements UserService {
 
         UserEntity newUser = toEntityConverter.convertToUserEntity(user);
         newUser.setContactEntity(contactEntity);
-//        Long userNumber = userRepository.saveAndFlush(newUser).getId();
 
         Optional<BankEntity> bank = bankRepository.findById(user.getBankId());
         newUser.setBank(bank.orElse(null));

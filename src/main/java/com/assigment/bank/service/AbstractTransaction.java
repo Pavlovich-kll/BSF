@@ -9,15 +9,14 @@ import com.assigment.bank.service.converter.ModelToEntityConverter;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
 public abstract class AbstractTransaction {
 
-    private final TransactionRepository transactionRepository;
-    private final SavingsAccountRepository accountRepository;
+    protected final TransactionRepository transactionRepository;
+    protected final SavingsAccountRepository accountRepository;
     private final ModelToEntityConverter toEntityConverter;
 
 
@@ -34,14 +33,16 @@ public abstract class AbstractTransaction {
             //save transaction
             AccountEntity acc = account.get();
             topUpTransaction.setAccount(acc);
-            transactionRepository.save(topUpTransaction);
+//            transactionRepository.save(topUpTransaction);
             //change account balance
             Map<String, AccountEntity> mapAcc = new HashMap<>();
-            mapAcc.put("transaction", acc);
-            doCalculation(mapAcc, transaction, accountRepository);
+            mapAcc.put("baseTransactionAcc", acc);
+            Map<String, TransactionEntity> mapTransactions = new HashMap<>();
+            mapTransactions.put("baseTransaction", topUpTransaction);
+            doCalculation(mapAcc, mapTransactions, transaction);
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "The user with the number: " + transaction.getAccountNumber() + "account was not found");
+                    "The user with the number: " + transaction.getAccountNumber() + " account was not found");
         }
     }
 
@@ -52,23 +53,25 @@ public abstract class AbstractTransaction {
         Optional<AccountEntity> accountTo = accountRepository.findByUserNumber(toAccountNumber);
 
         if (accountFrom.isPresent() && accountTo.isPresent()) {
-            //save transaction
             AccountEntity accFrom = accountFrom.get();
             AccountEntity accTo = accountTo.get();
 
+            //create accounts
             transferTransactionFrom.setAccount(accFrom);
             transferTransactionTo.setAccount(accTo);
 
-            transactionRepository.save(transferTransactionFrom);
-            transactionRepository.save(transferTransactionTo);
-            //change account balance
-            Map<String, AccountEntity> mapAcc = new HashMap<>();
-            mapAcc.put("transferTo", accTo);
-            mapAcc.put("transferFrom", accFrom);
+            Map<String, AccountEntity> mapAccounts = new HashMap<>();
+            mapAccounts.put("transferAccTo", accTo);
+            mapAccounts.put("transferAccFrom", accFrom);
 
-            doCalculation(mapAcc, transaction, accountRepository);
+            Map<String, TransactionEntity> mapTransactions = new HashMap<>();
+            mapTransactions.put("transferTransactionTo", transferTransactionTo);
+            mapTransactions.put("transferTransactionFrom", transferTransactionFrom);
+
+            //change account balance
+            doCalculation(mapAccounts, mapTransactions, transaction);
         }
     }
 
-    protected abstract void doCalculation(Map<String, AccountEntity> mapAccounts, TransactionDto transaction, SavingsAccountRepository accountRepository);
+    protected abstract void doCalculation(Map<String, AccountEntity> mapAccounts, Map<String, TransactionEntity> mapTransactions, TransactionDto transaction);
 }

@@ -40,7 +40,7 @@ public class AccountServiceImpl implements AccountService {
             userRepository.saveAndFlush(user.get());
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "The user with the number: " + account.getUserNumber() + "was not found!");
+                    "The user with the number: " + account.getUserNumber() + " was not found!");
         }
     }
 }

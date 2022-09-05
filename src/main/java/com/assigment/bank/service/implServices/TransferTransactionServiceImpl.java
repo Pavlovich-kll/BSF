@@ -8,12 +8,13 @@ import com.assigment.bank.repository.TransactionRepository;
 import com.assigment.bank.service.AbstractTransaction;
 import com.assigment.bank.service.converter.ModelToEntityConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.Map;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -27,16 +28,33 @@ public class TransferTransactionServiceImpl extends AbstractTransaction {
     }
 
     @Override
-    protected void doCalculation(Map<String, AccountEntity> mapAccounts, TransactionDto transaction, SavingsAccountRepository accountRepository) {
-        AccountEntity accFrom = mapAccounts.get("transferFrom");
-        AccountEntity accTo = mapAccounts.get("transferTo");
+    protected void doCalculation(Map<String, AccountEntity> mapAccounts, Map<String, TransactionEntity> mapTransactions, TransactionDto transaction) {
+        AccountEntity accFrom = mapAccounts.get("transferAccFrom");
+        AccountEntity accTo = mapAccounts.get("transferAccTo");
+        TransactionEntity transactionTo = mapTransactions.get("transferTransactionTo");
+        TransactionEntity transactionFrom = mapTransactions.get("transferTransactionFrom");
 
-        BigDecimal result1 = accFrom.getAccountBalance().subtract(transaction.getTxAmount());
-        accFrom.setAccountBalance(result1);
-        accountRepository.saveAndFlush(accFrom);
+        BigDecimal fromAccountBalance = accFrom.getAccountBalance();
+        BigDecimal toAccountBalance = accTo.getAccountBalance();
+        BigDecimal transactionSum = transaction.getTxAmount();
 
-        BigDecimal result2 = accTo.getAccountBalance().add(transaction.getTxAmount());
-        accTo.setAccountBalance(result2);
-        accountRepository.saveAndFlush(accTo);
+        if (fromAccountBalance.compareTo(transactionSum) < 0) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT,
+                    "The account balance is less then minus transaction!");
+        } else {
+            //change from account balance
+            BigDecimal resultedFromAccBalance = fromAccountBalance.subtract(transactionSum);
+            accFrom.setAccountBalance(resultedFromAccBalance);
+            //save transaction
+            accountRepository.saveAndFlush(accFrom);
+            transactionRepository.saveAndFlush(transactionFrom);
+
+            //change to account balance
+            BigDecimal resultedToAccountBalance = toAccountBalance.add(transactionSum);
+            accTo.setAccountBalance(resultedToAccountBalance);
+            //save transaction
+            accountRepository.saveAndFlush(accTo);
+            transactionRepository.saveAndFlush(transactionTo);
+        }
     }
 }

@@ -1,4 +1,4 @@
-### Befor strat run init.sql script in test resources in order to generate Bank and Address in DB.
+### Befor strat run 'init.sql' script in test resources in order to generate Bank and Addresses in DB.
 
 ### Create first user
 PUT http://localhost:8080/user/create
@@ -7,15 +7,15 @@ Content-Type: application/json
 {
   "bankId": 1,
   "contactInformation": {
-    "address": "user1 address",
-    "city": "user1 city",
-    "country": "user1 country",
-    "email": "email1",
+    "address": "Exchange line, 4",
+    "city": "Saint-Petersburg",
+    "country": "Russia",
+    "email": "kirill@gmail.com",
     "phoneNumber": "+79213463434"
   },
-  "firstName": "user1",
-  "lastName": "test1",
-  "status": "status1"
+  "firstName": "Kirill",
+  "lastName": "Pavlovich",
+  "status": "enabled"
 }
 
 ### Create second user
@@ -25,31 +25,18 @@ Content-Type: application/json
 {
 "bankId": 2,
 "contactInformation": {
-"address": "user2 address",
-"city": "user2 city",
-"country": "user2 country",
-"email": "email2",
+"address": "Exchange line, 5",
+"city": "Saint-Petersburg",
+"country": "Russia",
+"email": "vadim@gmail.com",
 "phoneNumber": "+7921346634"
 },
-"firstName": "user2",
-"lastName": "test2",
-"status": "status2"
+"firstName": "Vadim",
+"lastName": "Vadimovich",
+"status": "enabled"
 }
 
-### get user on account number (id)
-GET http://localhost:8080/user/1
-Content-Type: application/json
-
-
-### get all users
-GET http://localhost:8080/user/all
-Content-Type: application/json
-
-### delete user on id
-DELETE http://localhost:8080/user/delete/1
-Content-Type: application/json
-
-### create account
+### create account (ctreate first account and then second)
 POST http://localhost:8080/account/create
 Content-Type: application/json
 
@@ -70,7 +57,6 @@ Content-Type: application/json
   "txType": "toUp"
 }
 
-
 ### do transaction -minus balance on account number from user
 POST http://localhost:8080/transaction/withdraw
 Content-Type: application/json
@@ -88,6 +74,18 @@ Content-Type: application/json
 {
   "accountNumber": 1,
   "toAccountNumber": 2,
-  "txAmount": 200,
+  "txAmount": 20000,
   "txType": "transfer"
 }
+
+### get user on account number (id)
+GET http://localhost:8080/user/1
+Content-Type: application/json
+
+### get all users
+GET http://localhost:8080/user/all
+Content-Type: application/json
+
+### delete user on id
+DELETE http://localhost:8080/user/delete/1
+Content-Type: application/json

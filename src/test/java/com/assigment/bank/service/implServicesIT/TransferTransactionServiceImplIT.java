@@ -19,7 +19,7 @@ import java.util.List;
 @SqlGroup({
         @Sql("/init-test.sql")
 })
-public class TransferTransactionServiceImplTest extends ContainerDB {
+public class TransferTransactionServiceImplIT extends ContainerDB {
 
     @Autowired
     private TransactionRepository transactionRepository;

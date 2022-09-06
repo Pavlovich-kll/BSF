@@ -9,6 +9,7 @@ import com.assigment.bank.entity.AddressEntity;
 import com.assigment.bank.entity.BankEntity;
 import com.assigment.bank.entity.ContactEntity;
 import com.assigment.bank.entity.UserEntity;
+import com.assigment.bank.exceptionHandler.exception.AccountNotFoundException;
 import com.assigment.bank.repository.SavingsAccountRepository;
 import com.assigment.bank.repository.UserRepository;
 import com.assigment.bank.service.converter.ModelToEntityConverter;
@@ -22,7 +23,6 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 import java.util.Optional;
@@ -116,7 +116,7 @@ public class AccountServiceImplTest {
                 , eventArgumentCaptor.getValue().getMessage());
     }
 
-    @Test(expected = ResponseStatusException.class)
+    @Test(expected = AccountNotFoundException.class)
     public void createUserAccountWithException() {
         service.createUsersAccount(accountDto);
     }

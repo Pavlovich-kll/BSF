@@ -3,13 +3,12 @@ package com.assigment.bank.service.implServices;
 import com.assigment.bank.dto.TransactionDto;
 import com.assigment.bank.entity.AccountEntity;
 import com.assigment.bank.entity.TransactionEntity;
+import com.assigment.bank.exceptionHandler.exception.AccountNotFoundException;
 import com.assigment.bank.repository.SavingsAccountRepository;
 import com.assigment.bank.repository.TransactionRepository;
 import com.assigment.bank.service.converter.ModelToEntityConverter;
-import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -46,8 +45,7 @@ public abstract class AbstractTransactionService {
             mapTransactions.put("baseTransaction", topUpTransaction);
             doCalculation(mapAcc, mapTransactions, transaction);
         } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "The user with the number: " + transaction.getAccountNumber() + " account was not found");
+            throw new AccountNotFoundException("The user with the number: " + transaction.getAccountNumber() + " account was not found");
         }
     }
 

@@ -3,16 +3,15 @@ package com.assigment.bank.service.implServices;
 import com.assigment.bank.dto.AccountDto;
 import com.assigment.bank.entity.AccountEntity;
 import com.assigment.bank.entity.UserEntity;
+import com.assigment.bank.exceptionHandler.exception.AccountNotFoundException;
 import com.assigment.bank.repository.SavingsAccountRepository;
 import com.assigment.bank.repository.UserRepository;
 import com.assigment.bank.service.AccountService;
 import com.assigment.bank.service.converter.EntityToModelConverter;
 import com.assigment.bank.service.converter.ModelToEntityConverter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
@@ -42,8 +41,7 @@ public class AccountServiceImpl implements AccountService {
             userRepository.saveAndFlush(user.get());
             log.info("account created");
         } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "The user with the number: " + account.getUserNumber() + " was not found!");
+            throw new AccountNotFoundException("The user with the number: " + account.getUserNumber() + " was not found!");
         }
     }
 }

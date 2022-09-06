@@ -4,6 +4,7 @@ import com.assigment.bank.dto.UserDto;
 import com.assigment.bank.entity.BankEntity;
 import com.assigment.bank.entity.ContactEntity;
 import com.assigment.bank.entity.UserEntity;
+import com.assigment.bank.exceptionHandler.exception.UserNotFoundException;
 import com.assigment.bank.model.User;
 import com.assigment.bank.repository.BankRepository;
 import com.assigment.bank.repository.ContactRepository;
@@ -11,10 +12,8 @@ import com.assigment.bank.repository.UserRepository;
 import com.assigment.bank.service.UserService;
 import com.assigment.bank.service.converter.EntityToModelConverter;
 import com.assigment.bank.service.converter.ModelToEntityConverter;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +60,7 @@ public class UserServiceImpl implements UserService {
            UserEntity entity = user.get();
            return createUserEntity(entity);
         } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User № " + userNumber + " not found.");
+            throw new UserNotFoundException("User № " + userNumber + " not found.");
         }
     }
 

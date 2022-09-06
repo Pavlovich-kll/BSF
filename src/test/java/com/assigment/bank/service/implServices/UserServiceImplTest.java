@@ -2,6 +2,7 @@ package com.assigment.bank.service.implServices;
 
 import com.assigment.bank.dto.UserDto;
 import com.assigment.bank.entity.UserEntity;
+import com.assigment.bank.exceptionHandler.exception.UserNotFoundException;
 import com.assigment.bank.model.Account;
 import com.assigment.bank.model.User;
 import com.assigment.bank.repository.BankRepository;
@@ -16,7 +17,6 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -107,7 +107,7 @@ public class UserServiceImplTest extends AbstractServiceTest {
         Assert.assertEquals(BigDecimal.valueOf(10000), usersByNumber.getAccount().getAccountBalance());
     }
 
-    @Test(expected = ResponseStatusException.class)
+    @Test(expected = UserNotFoundException.class)
     public void getUsersByNumberWithExceptionTest() {
         when(userRepository.findById(1L)).thenReturn(Optional.empty());
         userService.getUsersByNumber(1L);

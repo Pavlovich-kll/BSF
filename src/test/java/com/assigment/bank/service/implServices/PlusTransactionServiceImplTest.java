@@ -5,6 +5,7 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
 import com.assigment.bank.dto.TransactionDto;
 import com.assigment.bank.entity.TransactionEntity;
+import com.assigment.bank.exceptionHandler.exception.AccountNotFoundException;
 import com.assigment.bank.repository.SavingsAccountRepository;
 import com.assigment.bank.repository.TransactionRepository;
 import com.assigment.bank.service.converter.ModelToEntityConverter;
@@ -18,7 +19,6 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 import java.util.Optional;
@@ -75,7 +75,7 @@ public class PlusTransactionServiceImplTest extends AbstractServiceTest {
                 , eventArgumentCaptor.getValue().getMessage());
     }
 
-    @Test(expected = ResponseStatusException.class)
+    @Test(expected = AccountNotFoundException.class)
     public void doOperationWithException() {
         TransactionDto transaction = TransactionDto.builder()
                 .accountNumber(1L)

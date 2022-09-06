@@ -3,16 +3,15 @@ package com.assigment.bank.service.implServices;
 import com.assigment.bank.dto.TransactionDto;
 import com.assigment.bank.entity.AccountEntity;
 import com.assigment.bank.entity.TransactionEntity;
+import com.assigment.bank.exceptionHandler.exception.AccountBalanceException;
 import com.assigment.bank.repository.SavingsAccountRepository;
 import com.assigment.bank.repository.TransactionRepository;
 import com.assigment.bank.service.converter.ModelToEntityConverter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 import java.util.Map;
@@ -44,8 +43,7 @@ public class TransferTransactionServiceImpl extends AbstractTransactionService {
         BigDecimal transactionSum = transaction.getTxAmount();
 
         if (fromAccountBalance.compareTo(transactionSum) < 0) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT,
-                    "The account balance is less then minus transaction!");
+            throw new AccountBalanceException("The account balance is less then minus transaction!");
         } else {
             //change "from" account balance
             BigDecimal resultedFromAccBalance = fromAccountBalance.subtract(transactionSum);

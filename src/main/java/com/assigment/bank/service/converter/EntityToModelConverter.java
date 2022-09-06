@@ -62,6 +62,7 @@ public class EntityToModelConverter {
                 .accountBalance(account.getAccountBalance())
                 .userNumber(userNumber)
                 .accountStatus(account.getAccountStatus())
+                .accountCreated(account.getCreateDateTime())
                 .transactionList(transactionList)
                 .build();
     }

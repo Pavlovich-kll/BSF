@@ -22,10 +22,7 @@ public class ModelToEntityConverter {
         return AccountEntity.builder()
                 .accountType(accInfo.getAccountType())
                 .accountBalance(accInfo.getAccountBalance())
-//                .user(convertToUserEntity(accInfo.getUser()))
                 .accountStatus(accInfo.getAccountStatus())
-//                .transactionsList(list)
-//                .createDateTime(accInfo.getAccountCreated())
                 .build();
     }
 
@@ -50,15 +47,11 @@ public class ModelToEntityConverter {
     }
 
     public BankEntity convertToBankInfoEntity(Bank bank) {
-//        List<UserEntity> listUsers = new ArrayList<>();
-//        bank.getUser().forEach(u -> listUsers.add(convertToUserEntity(u)));
-
         return BankEntity.builder()
                 .branchCode(bank.getBranchCode())
                 .branchName(bank.getBranchName())
                 .routingNumber(bank.getRoutingNumber())
                 .branchAddress(convertToAddressEntity(bank.getBranchAddress()))
-//                .userEntity(listUsers)
                 .build();
     }
 
@@ -66,22 +59,6 @@ public class ModelToEntityConverter {
         return TransactionEntity.builder()
                 .txAmount(transaction.getTxAmount())
                 .txType(transaction.getTxType())
-                .build();
-    }
-
-
-
-
-    public BankEntity convertToBankTESTEntity(Bank bank) {
-//        List<UserEntity> listUsers = new ArrayList<>();
-//        bank.getUser().forEach(u -> listUsers.add(convertToUserEntity(u)));
-
-        return BankEntity.builder()
-                .branchCode(bank.getBranchCode())
-                .branchName(bank.getBranchName())
-                .routingNumber(bank.getRoutingNumber())
-                .branchAddress(convertToAddressEntity(bank.getBranchAddress()))
-//                .userEntity(listUsers)
                 .build();
     }
 }

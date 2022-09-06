@@ -7,17 +7,18 @@ import com.assigment.bank.repository.SavingsAccountRepository;
 import com.assigment.bank.repository.TransactionRepository;
 import com.assigment.bank.service.AbstractTransaction;
 import com.assigment.bank.service.converter.ModelToEntityConverter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.Map;
 
+@Slf4j
 @Service
-@Transactional
 public class MinusTransactionServiceImpl extends AbstractTransaction {
 
     @Autowired
@@ -28,6 +29,7 @@ public class MinusTransactionServiceImpl extends AbstractTransaction {
     }
 
     @Override
+    @Transactional
     public void doCalculation(Map<String, AccountEntity> mapAccounts, Map<String, TransactionEntity> mapTransactions, TransactionDto transaction) {
         AccountEntity acc = mapAccounts.get("baseTransactionAcc");
         TransactionEntity transactionMinus = mapTransactions.get("baseTransaction");
@@ -42,6 +44,7 @@ public class MinusTransactionServiceImpl extends AbstractTransaction {
             acc.setAccountBalance(result);
             accountRepository.saveAndFlush(acc);
             transactionRepository.saveAndFlush(transactionMinus);
+            log.info("You did successfully minus transaction");
         }
     }
 }

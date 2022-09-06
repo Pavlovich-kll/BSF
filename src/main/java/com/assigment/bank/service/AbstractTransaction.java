@@ -7,6 +7,7 @@ import com.assigment.bank.repository.SavingsAccountRepository;
 import com.assigment.bank.repository.TransactionRepository;
 import com.assigment.bank.service.converter.ModelToEntityConverter;
 import org.springframework.http.HttpStatus;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashMap;
@@ -26,6 +27,7 @@ public abstract class AbstractTransaction {
         this.toEntityConverter = toEntityConverter;
     }
 
+    @Transactional
     public void doOperation(TransactionDto transaction) {
         TransactionEntity topUpTransaction = toEntityConverter.convertToTransactionEntity(transaction);
         Optional<AccountEntity> account = accountRepository.findByUserNumber(transaction.getAccountNumber());
@@ -33,7 +35,6 @@ public abstract class AbstractTransaction {
             //save transaction
             AccountEntity acc = account.get();
             topUpTransaction.setAccount(acc);
-//            transactionRepository.save(topUpTransaction);
             //change account balance
             Map<String, AccountEntity> mapAcc = new HashMap<>();
             mapAcc.put("baseTransactionAcc", acc);

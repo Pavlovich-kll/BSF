@@ -7,15 +7,16 @@ import com.assigment.bank.repository.SavingsAccountRepository;
 import com.assigment.bank.repository.TransactionRepository;
 import com.assigment.bank.service.AbstractTransaction;
 import com.assigment.bank.service.converter.ModelToEntityConverter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.Map;
 
+@Slf4j
 @Service
-@Transactional
 public class PlusTransactionServiceImpl extends AbstractTransaction {
 
     @Autowired
@@ -26,6 +27,7 @@ public class PlusTransactionServiceImpl extends AbstractTransaction {
     }
 
     @Override
+    @Transactional
     public void doCalculation(Map<String, AccountEntity> mapAccounts, Map<String, TransactionEntity> mapTransactions, TransactionDto transaction) {
         AccountEntity acc = mapAccounts.get("baseTransactionAcc");
         TransactionEntity transactionPlus = mapTransactions.get("baseTransaction");
@@ -34,5 +36,6 @@ public class PlusTransactionServiceImpl extends AbstractTransaction {
 
         accountRepository.saveAndFlush(acc);
         transactionRepository.saveAndFlush(transactionPlus);
+        log.info("You did successfully plus transaction");
     }
 }

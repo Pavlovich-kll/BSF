@@ -8,13 +8,15 @@ import com.assigment.bank.repository.UserRepository;
 import com.assigment.bank.service.AccountService;
 import com.assigment.bank.service.converter.EntityToModelConverter;
 import com.assigment.bank.service.converter.ModelToEntityConverter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.transaction.Transactional;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @Transactional
 public class AccountServiceImpl implements AccountService {
@@ -38,6 +40,7 @@ public class AccountServiceImpl implements AccountService {
             AccountEntity accountEntity = accountRepository.saveAndFlush(newAccount);
             user.get().setSavingsAccount(accountEntity);
             userRepository.saveAndFlush(user.get());
+            log.info("account created");
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                     "The user with the number: " + account.getUserNumber() + " was not found!");

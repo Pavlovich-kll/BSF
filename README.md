@@ -41,11 +41,11 @@ RUN APPLICATION
 Default port for the api: 8080
 
 
-#Swagger
+# **Swagger**
 Please find the Rest API documentation in the below url
 
 `http://localhost:8080/api/swagger-ui/index.html`
 
 
-#Author
+# **Author**
 **Kirill Pavlovich**

@@ -1,4 +1,4 @@
-package com.assigment.bank.repository.Initializer;
+package com.assigment.bank.repositoryIT.Initializer;
 
 import org.junit.ClassRule;
 import org.junit.runner.RunWith;

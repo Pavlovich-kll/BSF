@@ -1,7 +1,8 @@
-package com.assigment.bank.repository;
+package com.assigment.bank.repositoryIT;
 
 import com.assigment.bank.entity.UserEntity;
-import com.assigment.bank.repository.Initializer.ContainerDB;
+import com.assigment.bank.repositoryIT.Initializer.ContainerDB;
+import com.assigment.bank.repository.UserRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +10,6 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
 
 import java.util.Optional;
-
-import static org.junit.Assert.*;
 
 @SqlGroup({
         @Sql("/init-test.sql")

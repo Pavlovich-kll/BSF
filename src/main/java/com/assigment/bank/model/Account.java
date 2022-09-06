@@ -1,10 +1,13 @@
 package com.assigment.bank.model;
 
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Data
@@ -18,5 +21,7 @@ public class Account {
     private String accountType;
     private BigDecimal accountBalance;
     private LocalDateTime accountCreated;
+
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private List<Transaction> transactionList;
 }

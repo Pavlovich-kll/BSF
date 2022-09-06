@@ -5,12 +5,12 @@ import com.assigment.bank.entity.AccountEntity;
 import com.assigment.bank.entity.TransactionEntity;
 import com.assigment.bank.repository.SavingsAccountRepository;
 import com.assigment.bank.repository.TransactionRepository;
-import com.assigment.bank.service.AbstractTransaction;
 import com.assigment.bank.service.converter.ModelToEntityConverter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -22,7 +22,7 @@ import java.util.Map;
  */
 @Slf4j
 @Service
-public class TransferTransactionServiceImpl extends AbstractTransaction {
+public class TransferTransactionServiceImpl extends AbstractTransactionService {
 
     @Autowired
     protected TransferTransactionServiceImpl(TransactionRepository transactionRepository
@@ -32,7 +32,7 @@ public class TransferTransactionServiceImpl extends AbstractTransaction {
     }
 
     @Override
-    @Transactional
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     protected void doCalculation(Map<String, AccountEntity> mapAccounts, Map<String, TransactionEntity> mapTransactions, TransactionDto transaction) {
         AccountEntity accFrom = mapAccounts.get("transferAccFrom");
         AccountEntity accTo = mapAccounts.get("transferAccTo");

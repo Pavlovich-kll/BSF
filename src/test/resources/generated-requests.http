@@ -48,7 +48,7 @@ Content-Type: application/json
   "accountBalance": 10000,
   "accountStatus": "enable",
   "accountType": "dollars",
-  "userNumber": 4
+  "userNumber": 1
 }
 
 ### do transaction +plus balance on account number from user
@@ -56,7 +56,7 @@ POST http://localhost:8000/transaction/toUp
 Content-Type: application/json
 
 {
-  "accountNumber": 3,
+  "accountNumber": 2,
   "txAmount": 1200,
   "txType": "toUp"
 }
@@ -66,7 +66,7 @@ POST http://localhost:8000/transaction/withdraw
 Content-Type: application/json
 
 {
-  "accountNumber": 4,
+  "accountNumber": 1,
   "txAmount": 200,
   "txType": "withdraw"
 }
@@ -76,8 +76,8 @@ POST http://localhost:8000/transaction/transfer
 Content-Type: application/json
 
 {
-  "accountNumber": 3,
-  "toAccountNumber": 4,
+  "accountNumber": 1,
+  "toAccountNumber": 2,
   "txAmount": 200,
   "txType": "transfer"
 }

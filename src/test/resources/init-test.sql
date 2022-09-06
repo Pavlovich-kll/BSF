@@ -1,8 +1,6 @@
--- truncate table bank;
 truncate table address cascade;
 truncate table user_contact_information cascade;
 truncate table account cascade;
--- truncate table users;
 
 
 INSERT INTO address (id, address, city, country, state, zip)

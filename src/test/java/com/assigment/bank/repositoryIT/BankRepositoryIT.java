@@ -1,7 +1,8 @@
-package com.assigment.bank.repository;
+package com.assigment.bank.repositoryIT;
 
 import com.assigment.bank.entity.BankEntity;
-import com.assigment.bank.repository.Initializer.ContainerDB;
+import com.assigment.bank.repository.BankRepository;
+import com.assigment.bank.repositoryIT.Initializer.ContainerDB;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.assigment.bank.service;
+package com.assigment.bank.service.implServices;
 
 import com.assigment.bank.dto.TransactionDto;
 import com.assigment.bank.entity.AccountEntity;
@@ -7,6 +7,7 @@ import com.assigment.bank.repository.SavingsAccountRepository;
 import com.assigment.bank.repository.TransactionRepository;
 import com.assigment.bank.service.converter.ModelToEntityConverter;
 import org.springframework.http.HttpStatus;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -17,20 +18,20 @@ import java.util.Optional;
 /**
  * Common abstract class for making transactions by the user
  */
-public abstract class AbstractTransaction {
+public abstract class AbstractTransactionService {
 
     protected final TransactionRepository transactionRepository;
     protected final SavingsAccountRepository accountRepository;
     private final ModelToEntityConverter toEntityConverter;
 
 
-    protected AbstractTransaction(TransactionRepository transactionRepository, SavingsAccountRepository accountRepository, ModelToEntityConverter toEntityConverter) {
+    protected AbstractTransactionService(TransactionRepository transactionRepository, SavingsAccountRepository accountRepository, ModelToEntityConverter toEntityConverter) {
         this.transactionRepository = transactionRepository;
         this.accountRepository = accountRepository;
         this.toEntityConverter = toEntityConverter;
     }
 
-    @Transactional
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     public void doOperation(TransactionDto transaction) {
         TransactionEntity topUpTransaction = toEntityConverter.convertToTransactionEntity(transaction);
         Optional<AccountEntity> account = accountRepository.findByUserNumber(transaction.getAccountNumber());
@@ -50,6 +51,7 @@ public abstract class AbstractTransaction {
         }
     }
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     public void doTransfer(TransactionDto transaction, Long toAccountNumber) {
         TransactionEntity transferTransactionFrom = toEntityConverter.convertToTransactionEntity(transaction);
         TransactionEntity transferTransactionTo = toEntityConverter.convertToTransactionEntity(transaction);

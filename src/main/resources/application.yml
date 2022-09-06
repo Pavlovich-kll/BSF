@@ -2,10 +2,6 @@ server:
   port: 8080
 spring:
   datasource:
-#    url: jdbc:postgresql://db:5432/compose-postgres
-#    driver-class-name: org.postgresql.Driver
-#    username: docker-compose
-#    password: docker-compose
     url: jdbc:postgresql://localhost:5477/postgres
     driver-class-name: org.postgresql.Driver
     username: postgres
@@ -22,12 +18,6 @@ spring:
 
   main:
     allow-bean-definition-overriding: true
-#  sql:
-#    init:
-#      data-locations: init.sql
-#  mvc:
-#    pathmatch:
-#      matching-strategy: ant_path_matcher
 
 #=======================================================
 # Swagger

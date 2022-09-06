@@ -12,7 +12,6 @@ import org.springframework.test.context.junit4.SpringRunner;
  * Класс, где создается контейнер для каждого отдельного теста
  */
 @RunWith(SpringRunner.class)
-//@DataJpaTest
 @SpringBootTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 @TestPropertySource(value = "classpath:application-test.yml")

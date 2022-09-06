@@ -14,6 +14,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Common abstract class for making transactions by the user
+ */
 public abstract class AbstractTransaction {
 
     protected final TransactionRepository transactionRepository;

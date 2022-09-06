@@ -17,6 +17,9 @@ import org.springframework.web.server.ResponseStatusException;
 import java.math.BigDecimal;
 import java.util.Map;
 
+/**
+ * Implementation of a money transfer transaction from user to user
+ */
 @Slf4j
 @Service
 public class TransferTransactionServiceImpl extends AbstractTransaction {
@@ -44,14 +47,14 @@ public class TransferTransactionServiceImpl extends AbstractTransaction {
             throw new ResponseStatusException(HttpStatus.CONFLICT,
                     "The account balance is less then minus transaction!");
         } else {
-            //change from account balance
+            //change "from" account balance
             BigDecimal resultedFromAccBalance = fromAccountBalance.subtract(transactionSum);
             accFrom.setAccountBalance(resultedFromAccBalance);
             //save transaction
             accountRepository.saveAndFlush(accFrom);
             transactionRepository.saveAndFlush(transactionFrom);
 
-            //change to account balance
+            //change "to" account balance
             BigDecimal resultedToAccountBalance = toAccountBalance.add(transactionSum);
             accTo.setAccountBalance(resultedToAccountBalance);
             //save transaction

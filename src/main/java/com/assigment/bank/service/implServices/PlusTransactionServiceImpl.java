@@ -15,6 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.Map;
 
+/**
+ * Implementation of a money transaction toUp balance
+ */
 @Slf4j
 @Service
 public class PlusTransactionServiceImpl extends AbstractTransaction {

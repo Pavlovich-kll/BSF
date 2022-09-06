@@ -17,6 +17,9 @@ import org.springframework.web.server.ResponseStatusException;
 import java.math.BigDecimal;
 import java.util.Map;
 
+/**
+ * Implementation of a money transaction to withdraw
+ */
 @Slf4j
 @Service
 public class MinusTransactionServiceImpl extends AbstractTransaction {

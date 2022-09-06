@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 
 @RunWith(MockitoJUnitRunner.class)
-public class AbstractServiceTest {
+public abstract class AbstractServiceTest {
 
     protected UserEntity userEntityNoAccount;
     protected UserEntity userEntityAccount;

@@ -9,8 +9,6 @@ import com.assigment.bank.service.converter.ModelToEntityConverter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.Map;
@@ -30,7 +28,6 @@ public class PlusTransactionServiceImpl extends AbstractTransactionService {
     }
 
     @Override
-    @Transactional(isolation = Isolation.REPEATABLE_READ)
     public void doCalculation(Map<String, AccountEntity> mapAccounts, Map<String, TransactionEntity> mapTransactions, TransactionDto transaction) {
         AccountEntity acc = mapAccounts.get("baseTransactionAcc");
         TransactionEntity transactionPlus = mapTransactions.get("baseTransaction");

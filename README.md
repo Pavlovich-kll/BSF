@@ -1,4 +1,4 @@
-# **BSF assigment Application using Java 8, Spring Boot, PostgreSQL, Docker Compose**
+# **Application using Java 8, Spring Boot, PostgreSQL, Docker Compose**
 
 RESTful API to simulate simple banking operations.
 
